@@ -29,6 +29,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Obtener actividades por tipo
+router.get('/:tipo', async (req, res) => {
+    try {
+        const actividades = await Actividad.find({ tipo: req.params.tipo });
+        res.status(200).json(actividades);
+    } catch (error) {
+        console.error('Error al obtener actividades:', error);
+        res.status(500).send({ message: "Error al obtener actividades" });
+    }
+});
+
 // Obtener una actividad por ID
 router.get('/:id', async (req, res) => {
     try {
