@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
         res.status(200).send({ message: "Actividad creada con exito" });
     } catch (error) {
         console.error('Error al crear la actividad:', error);
-        res.status(500).send({ message: "Error al crear la actividad" });
+        res.status(500).send({ message: "Error al crear la actividad", error: error.message });
     }
 });
 
