@@ -36,7 +36,7 @@ router.get('/:tipo', async (req, res) => {
         res.status(200).json(actividades);
     } catch (error) {
         console.error('Error al obtener actividades:', error);
-        res.status(500).send({ message: "Error al obtener actividades" });
+        res.status(500).send({ message: "Error al crear la actividad", error: error.message });
     }
 });
 
