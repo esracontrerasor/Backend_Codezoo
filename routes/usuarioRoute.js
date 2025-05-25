@@ -120,26 +120,23 @@ router.post('/:id/insignias', async (req, res) => {
 // Actualizar progreso de un usuario
 router.post('/:id/progreso', async (req, res) => {
     try {
-        const { actividadesCompletadas } = req.body;
+        const { actividadesCompletadas, porcentaje } = req.body;
         const usuario = await Usuario.findById(req.params.id);
 
         if (!usuario) {
             return res.status(404).send({ message: "Usuario no encontrado" });
         }
 
-        // ✅ Inicializa progreso si no existe
+        // Inicializa progreso si no existe
         if (!usuario.progreso) {
             usuario.progreso = { actividadesCompletadas: 0, porcentaje: 0 };
         }
 
-        // ✅ Actualiza actividadesCompletadas
-        usuario.progreso.actividadesCompletadas += actividadesCompletadas || 0;
+        //  Actualiza actividadesCompletadas
+        usuario.progreso.actividadesCompletadas = actividadesCompletadas;
 
-        // ✅ Calcula nuevo porcentaje
-        const totalActividades = await Actividad.countDocuments();
-        usuario.progreso.porcentaje = totalActividades > 0 
-            ? Math.round((usuario.progreso.actividadesCompletadas / totalActividades) * 100)
-            : 0;
+        // Calcula nuevo porcentaje
+        usuario.progreso.porcentaje = porcentaje;
 
         await usuario.save();
         res.status(200).send({ 
